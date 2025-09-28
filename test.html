@@ -19,37 +19,50 @@
     }
   </style>
   <script>
-    let blurTimer = null;
+    // Hanya aktif di Android dan iPhone
+    const isMobile = /Android|iPhone/i.test(navigator.userAgent);
 
-    // Saat tab tidak fokus
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        // mulai hitung 3 detik
+    if (isMobile) {
+      let blurTimer = null;
+      let lastWidth = window.innerWidth;
+      let lastHeight = window.innerHeight;
+
+      // 1. Reload jika ada perubahan ukuran layout (misalnya split screen)
+      window.addEventListener("resize", () => {
+        if (Math.abs(window.innerWidth - lastWidth) > 50 ||
+            Math.abs(window.innerHeight - lastHeight) > 50) {
+          location.reload();
+        }
+      });
+
+      // 2. Reload jika tidak fokus selama 3 detik
+      window.addEventListener("blur", () => {
         blurTimer = setTimeout(() => {
           location.reload();
         }, 3000);
-      } else {
-        // kalau balik fokus sebelum 3 detik, batalkan
+      });
+
+      window.addEventListener("focus", () => {
         clearTimeout(blurTimer);
         blurTimer = null;
-      }
-    });
+      });
 
-    // Jaga-jaga juga kalau window blur (misal alt+tab)
-    window.addEventListener("blur", () => {
-      blurTimer = setTimeout(() => {
-        location.reload();
-      }, 3000);
-    });
-
-    window.addEventListener("focus", () => {
-      clearTimeout(blurTimer);
-      blurTimer = null;
-    });
+      // 3. Reload jika pindah tab (langsung reload)
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          location.reload();
+        }
+      });
+    }
   </script>
 </head>
 <body>
-  <!-- Ganti FORM_ID dan pastikan pengaturan form tidak membatasi ke akun Google -->
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBZs3BjFtDQ7KyxrSoPumIDQS6dIzw7gQ9UENkEfS3GXKCoA/viewform?usp=dialog" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+  <iframe 
+    src="https://docs.google.com/forms/d/e/1FAIpQLSfBZs3BjFtDQ7KyxrSoPumIDQS6dIzw7gQ9UENkEfS3GXKCoA/viewform?usp=dialog" 
+    frameborder="0" 
+    marginheight="0" 
+    marginwidth="0">
+    Memuat…
+  </iframe>
 </body>
 </html>
