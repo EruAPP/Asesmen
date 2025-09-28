@@ -19,28 +19,32 @@
     }
   </style>
   <script>
-    // Reload jika pengguna berpindah tab
+    let blurTimer = null;
+
+    // Saat tab tidak fokus
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        location.reload();
+        // mulai hitung 3 detik
+        blurTimer = setTimeout(() => {
+          location.reload();
+        }, 3000);
+      } else {
+        // kalau balik fokus sebelum 3 detik, batalkan
+        clearTimeout(blurTimer);
+        blurTimer = null;
       }
     });
 
-    // Reload jika tab kembali fokus
+    // Jaga-jaga juga kalau window blur (misal alt+tab)
+    window.addEventListener("blur", () => {
+      blurTimer = setTimeout(() => {
+        location.reload();
+      }, 3000);
+    });
+
     window.addEventListener("focus", () => {
-      location.reload();
-    });
-
-    // Reload jika ukuran jendela berubah (split screen / floating window)
-    let lastWidth = window.innerWidth;
-    let lastHeight = window.innerHeight;
-
-    window.addEventListener("resize", () => {
-      // cek kalau ada perubahan signifikan ukuran
-      if (Math.abs(window.innerWidth - lastWidth) > 50 ||
-          Math.abs(window.innerHeight - lastHeight) > 50) {
-        location.reload();
-      }
+      clearTimeout(blurTimer);
+      blurTimer = null;
     });
   </script>
 </head>
@@ -49,4 +53,3 @@
   <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBZs3BjFtDQ7KyxrSoPumIDQS6dIzw7gQ9UENkEfS3GXKCoA/viewform?usp=dialog" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
 </body>
 </html>
-
