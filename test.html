@@ -35,24 +35,20 @@
         }
       });
 
-      // 2. Reload jika tidak fokus selama 3 detik
-      window.addEventListener("blur", () => {
-        blurTimer = setTimeout(() => {
-          location.reload();
-        }, 3000);
-      });
-
-      window.addEventListener("focus", () => {
-        clearTimeout(blurTimer);
-        blurTimer = null;
-      });
-
-      // 3. Reload jika pindah tab (langsung reload)
+      // 2. Reload jika tab tidak fokus selama 3 detik
       document.addEventListener("visibilitychange", () => {
         if (document.hidden) {
-          location.reload();
+          blurTimer = setTimeout(() => {
+            location.reload();
+          }, 3000);
+        } else {
+          clearTimeout(blurTimer);
+          blurTimer = null;
         }
       });
+
+      // 3. Reload langsung jika pindah tab (hidden → true)
+      // sudah tercakup di atas (document.hidden)
     }
   </script>
 </head>
