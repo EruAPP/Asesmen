@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pretest</title>
+  <title>Asesmen Sumatif</title>
   <style>
     body, html {
       margin: 0;
@@ -25,11 +25,28 @@
         location.reload();
       }
     });
+
+    // Reload jika tab kembali fokus
+    window.addEventListener("focus", () => {
+      location.reload();
+    });
+
+    // Reload jika ukuran jendela berubah (split screen / floating window)
+    let lastWidth = window.innerWidth;
+    let lastHeight = window.innerHeight;
+
+    window.addEventListener("resize", () => {
+      // cek kalau ada perubahan signifikan ukuran
+      if (Math.abs(window.innerWidth - lastWidth) > 50 ||
+          Math.abs(window.innerHeight - lastHeight) > 50) {
+        location.reload();
+      }
+    });
   </script>
 </head>
 <body>
   <!-- Ganti FORM_ID dan pastikan pengaturan form tidak membatasi ke akun Google -->
-  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfG2NLtIP35KvnxgKAvP_dN9L-X3EZt23H-gVuPD3uCMV3XWA/viewform?usp=dialog" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
+  <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfBZs3BjFtDQ7KyxrSoPumIDQS6dIzw7gQ9UENkEfS3GXKCoA/viewform?usp=dialog" frameborder="0" marginheight="0" marginwidth="0">Memuat…</iframe>
 </body>
 </html>
 
