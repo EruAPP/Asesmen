@@ -33,14 +33,12 @@
         const newHeight = window.innerHeight;
 
         // Kalau lebar berubah banyak (split screen / rotasi), reload
-        if (Math.abs(newWidth - lastWidth) > 100) {
+        if (Math.abs(newWidth - lastWidth) > 500) {
           location.reload();
         }
 
         // Kalau tinggi berubah banyak (bukan sekadar keyboard), reload
-        if (Math.abs(newHeight - lastHeight) > 150) {
-          location.reload();
-        }
+        
 
         // Update ukuran terakhir
         lastWidth = newWidth;
@@ -71,3 +69,4 @@
   </iframe>
 </body>
 </html>
+
