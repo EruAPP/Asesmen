@@ -19,43 +19,32 @@
     }
   </style>
   <script>
-    // Hanya aktif di Android dan iPhone
-    const isMobile = /Android|iPhone/i.test(navigator.userAgent);
+    // Berlaku di semua perangkat
+    let blurTimer = null;
 
-    if (isMobile) {
-      let blurTimer = null;
-      let lastWidth = window.innerWidth;
-      let lastHeight = window.innerHeight;
+    // Reload jika tab tidak fokus selama 3 detik
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) {
+        blurTimer = setTimeout(() => {
+          location.reload();
+        }, 3000); // 3 detik
+      } else {
+        clearTimeout(blurTimer);
+        blurTimer = null;
+      }
+    });
 
-      // 1. Reload jika ada perubahan ukuran layout (bukan karena keyboard)
-      window.addEventListener("resize", () => {
-        const newWidth = window.innerWidth;
-        const newHeight = window.innerHeight;
+    // Reload jika user berpindah ke aplikasi lain (khusus mobile)
+    window.addEventListener("blur", () => {
+      blurTimer = setTimeout(() => {
+        location.reload();
+      }, 3000);
+    });
 
-        // Kalau lebar berubah banyak (split screen / rotasi), reload
-      
-        }
-
-        // Kalau tinggi berubah banyak (bukan sekadar keyboard), reload
-        
-
-        // Update ukuran terakhir
-        lastWidth = newWidth;
-        lastHeight = newHeight;
-      });
-
-      // 2. Reload jika tab tidak fokus selama 3 detik
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-          blurTimer = setTimeout(() => {
-            location.reload();
-          }, 3000);
-        } else {
-          clearTimeout(blurTimer);
-          blurTimer = null;
-        }
-      });
-    }
+    window.addEventListener("focus", () => {
+      clearTimeout(blurTimer);
+      blurTimer = null;
+    });
   </script>
 </head>
 <body>
@@ -68,5 +57,3 @@
   </iframe>
 </body>
 </html>
-
-
