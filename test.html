@@ -20,30 +20,17 @@
   </style>
   <script>
     // Berlaku di semua perangkat
-    let blurTimer = null;
 
-    // Reload jika tab tidak fokus selama 3 detik
+    // Reload langsung jika tab tidak fokus
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
-        blurTimer = setTimeout(() => {
-          location.reload();
-        }, 3000); // 3 detik
-      } else {
-        clearTimeout(blurTimer);
-        blurTimer = null;
+        location.reload();
       }
     });
 
-    // Reload jika user berpindah ke aplikasi lain (khusus mobile)
+    // Reload langsung jika user pindah ke aplikasi lain (desktop & mobile)
     window.addEventListener("blur", () => {
-      blurTimer = setTimeout(() => {
-        location.reload();
-      }, 3000);
-    });
-
-    window.addEventListener("focus", () => {
-      clearTimeout(blurTimer);
-      blurTimer = null;
+      location.reload();
     });
   </script>
 </head>
