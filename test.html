@@ -27,12 +27,24 @@
       let lastWidth = window.innerWidth;
       let lastHeight = window.innerHeight;
 
-      // 1. Reload jika ada perubahan ukuran layout (misalnya split screen)
+      // 1. Reload jika ada perubahan ukuran layout (bukan karena keyboard)
       window.addEventListener("resize", () => {
-        if (Math.abs(window.innerWidth - lastWidth) > 50 ||
-            Math.abs(window.innerHeight - lastHeight) > 50) {
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+
+        // Kalau lebar berubah banyak (split screen / rotasi), reload
+        if (Math.abs(newWidth - lastWidth) > 100) {
           location.reload();
         }
+
+        // Kalau tinggi berubah banyak (bukan sekadar keyboard), reload
+        if (Math.abs(newHeight - lastHeight) > 150) {
+          location.reload();
+        }
+
+        // Update ukuran terakhir
+        lastWidth = newWidth;
+        lastHeight = newHeight;
       });
 
       // 2. Reload jika tab tidak fokus selama 3 detik
@@ -46,9 +58,6 @@
           blurTimer = null;
         }
       });
-
-      // 3. Reload langsung jika pindah tab (hidden → true)
-      // sudah tercakup di atas (document.hidden)
     }
   </script>
 </head>
