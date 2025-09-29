@@ -27,22 +27,6 @@
         location.reload();
       }
     });
-
-    // Reload langsung jika user pindah ke aplikasi lain (desktop & mobile)
-      let blurTimer = null;
-
-  // Jika jendela blur (pindah aplikasi/tab), tunggu 5 detik lalu reload
-  window.addEventListener("blur", () => {
-    blurTimer = setTimeout(() => {
-      location.reload();
-    }, 5000); // 5000 ms = 5 detik
-  });
-
-  // Jika fokus kembali sebelum 5 detik, batalkan reload
-  window.addEventListener("focus", () => {
-    clearTimeout(blurTimer);
-    blurTimer = null;
-  });
   </script>
 </head>
 <body>
@@ -55,4 +39,5 @@
   </iframe>
 </body>
 </html>
+
 
